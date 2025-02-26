@@ -1,3 +1,16 @@
+
+#!/usr/bin/env streamline
+'''
+ # @ Author: Aaron Shackelford
+ # @ Create Time: 2025-02-25 16:44:41
+ # @ Description: 
+ 
+    FileNameFunctions contains helper functions to deal with file names and other path like utilities.
+ 
+ # @ Modified by: Aaron Shackelford
+ # @ Modified time: 2025-02-25 16:46:11
+ '''
+
 import os
 
 
@@ -16,11 +29,34 @@ def get_path_components(file_path: str) -> dict[str, str]:
             `"ext"`: the extension of the file<br>
     '''
     # Split the file path into directory, base name, and extension
-    directory, base_name = os.path.split(file_path)
+    directory, base_name = os.path.split(os.path.abspath(file_path))
     name, ext = os.path.splitext(base_name)
 
     return {"dir": directory, "filename": name, "ext": ext}
 
+def get_file_folder(file_path: str) -> str:
+    """
+    get_file_folder returns the absolute folder path of the given file.
+
+    Args:
+        file (str): file path
+
+    Returns:
+        str: folder path
+    """
+    return get_path_components(file_path=file_path)["ext"]
+
+def get_file_ext(file_path: str) -> str:
+    """
+    get_file_ext returns the ext of the file if one exists, else returns ""
+
+    Args:
+        file (str): file path
+
+    Returns:
+        str: file ext
+    """
+    return get_path_components(file_path=file_path)["ext"]
 
 def get_base_file_name(file_path: str) -> str:
     """
