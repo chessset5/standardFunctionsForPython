@@ -20,13 +20,7 @@ def run_scripts_gui(file_paths: list[str]) -> None:
 
     # If the user confirms, run the scripts
     if confirmation:
-        with ThreadPoolExecutor() as e:
-            e.submit(
-                lambda: messagebox.showinfo(
-                    "Running Scripts", f"Running scripts for files: {file_paths}"
-                )
-            )
-            e.submit(lambda: run_scripts(file_paths))
+        run_scripts(file_paths)
         messagebox.showinfo(
             "Finished", f"Finished running scripts for files: {file_paths}"
         )
