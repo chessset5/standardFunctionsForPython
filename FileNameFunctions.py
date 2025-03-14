@@ -71,7 +71,7 @@ def get_base_file_name(file_path: str) -> str:
     return get_path_components(file_path=file_path)["filename"]
 
 
-def increment_filename(file_path: str, template: str = " ({counter})") -> str:
+def increment_filename(file_path: str, template: str = "({counter})", is_file_path:bool=True) -> str:
     """
     increment_filename increments given file
 
@@ -80,6 +80,7 @@ def increment_filename(file_path: str, template: str = " ({counter})") -> str:
         template (str): python template. Please use `counter` for the increment argument<br>
             Defaults to " ({counter})".<br>
             ex: `' ({counter:03})'` to pad left with zeros.
+        is_file_path (bool): if the file is a file path put True, for folder path put False. Default True.
 
     Returns:
         str: new file path
@@ -94,7 +95,11 @@ def increment_filename(file_path: str, template: str = " ({counter})") -> str:
     # Generate new file name with increment
     while os.path.exists(file_path):
         increment: str = template.replace("{counter}", str(counter))
-        new_name: str = f"{name}{increment}{ext}"
+        if is_file_path:
+            new_name: str = f"{name}{increment}{ext}"
+        else:
+            # is folder
+            new_name: str = f"{name}{ext}{increment}"
         file_path = os.path.normpath(os.path.join(directory, new_name))
         counter += 1
     return file_path
