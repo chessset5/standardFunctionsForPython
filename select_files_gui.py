@@ -35,7 +35,7 @@ def run_scripts_gui(file_paths: list[str]) -> None:
 
 
 # Main application class
-class INSVApp:
+class guiApp:
     def __init__(self, root):
         self.root = root
         self.root.title(TITLE_NAME)
@@ -220,5 +220,5 @@ class INSVApp:
 # Run the application
 if __name__ == "__main__":
     root = tk.Tk()
-    app = INSVApp(root)
+    app = guiApp(root)
     root.mainloop()
