@@ -119,12 +119,13 @@ def norm_join_path(lhs_path: str, rhs_path: str) -> str:
     lhs_dir: str = os.path.normpath(lhs_path)
     rhs_dir: str = os.path.normpath(rhs_path)
 
-    # stupid ass windows edge case.
-    # If the following paths start as a relative path, windows return the last relative path
+    # stupid ass relative edge case.
+    # If the following paths start as a relative path, python return the last relative path
     # \\lhs + \\rhs\\... == \\rhs\\...
     # \\lhs + rhs\\... == \\lhs\\rhs\\...
     # What fuckery is this!?
-    while rhs_dir.startswith("\\"):
+    while rhs_dir.startswith("\\") or rhs_dir.startswith("/"):
+        rhs_dir = rhs_dir.removeprefix("/")
         rhs_dir = rhs_dir.removeprefix("\\")
         rhs_dir: str = os.path.normpath(rhs_dir)
 
