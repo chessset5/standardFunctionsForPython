@@ -103,3 +103,30 @@ def increment_filename(file_path: str, template: str = "({counter})", is_file_pa
         file_path = os.path.normpath(os.path.join(directory, new_name))
         counter += 1
     return file_path
+
+def norm_join_path(lhs_path: str, rhs_path: str) -> str:
+    """
+    norm_join_path returns the normal **POSIX** joined path for the two string paths
+
+    Args:
+        lhs_path (str): left hand side path
+        rhs_path (str): right hand side path
+
+    Returns:
+        str: normal joined path
+    """
+    # more variables for debugging purposes
+    lhs_dir: str = os.path.normpath(lhs_path)
+    rhs_dir: str = os.path.normpath(rhs_path)
+
+    # stupid ass windows edge case.
+    # If the following paths start as a relative path, windows return the last relative path
+    # \\lhs + \\rhs\\... == \\rhs\\...
+    # \\lhs + rhs\\... == \\lhs\\rhs\\...
+    # What fuckery is this!?
+    while rhs_dir.startswith("\\"):
+        rhs_dir = rhs_dir.removeprefix("\\")
+        rhs_dir: str = os.path.normpath(rhs_dir)
+
+    return_dir: str = os.path.normpath(os.path.join(lhs_dir, rhs_dir))
+    return return_dir
